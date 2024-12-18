@@ -9,7 +9,7 @@ CREATE TABLE customer (
 	phone VARCHAR(20) NOT NULL,
 	birthdate DATE NULL,
 	sex sex_type NOT NULL,
-	date_entered TIMESTAMP NOT NULL DEFAULT current_timestamp,
+	date_entered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	id SERIAL PRIMARY KEY 
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE sales_person (
 	phone VARCHAR(20) NOT NULL,
 	birthdate DATE NULL,
 	sex sex_type NOT NULL,
-	date_hired TIMESTAMP NOT NULL DEFAULT current_timestamp,
+	date_hired TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	id SERIAL PRIMARY KEY 
 );
 
@@ -43,6 +43,37 @@ CREATE TABLE product(
 	id SERIAL PRIMARY KEY
 );
 
+CREATE TABLE item( 
+	product_id INTEGER REFERENCES product(id),
+	size INTEGER NOT NULL,
+	color VARCHAR(100) NOT NULL,
+	picture VARCHAR(256) NOT NULL,
+	price NUMERIC(6,2) NOT NULL,
+	id SERIAL PRIMARY KEY
+);
+
+CREATE TABLE item( 
+	product_id INTEGER REFERENCES product(id),
+	size INTEGER NOT NULL,
+	color VARCHAR(100) NOT NULL,
+	picture VARCHAR(256) NOT NULL,
+	price NUMERIC(6,2) NOT NULL,
+	id SERIAL PRIMARY KEY
+);
+
+CREATE TABLE sales_order( 
+	customer_id INTEGER REFERENCES customer(id),
+	sales_person_id INTEGER REFERENCES sales_person(id),
+	time_order_taken TIMESTAMP NOT NULL,
+	purchase_order_number INTEGER NOT NULL,
+	credit_card_number VARCHAR(16) NOT NULL,
+	credit_card_exper_month SMALLINT NOT NULL,
+	credit_card_exper_day SMALLINT NOT NULL,
+	credit_card_secret_code SMALLINT NOT NULL,
+	name_on_card VARCHAR(100) NOT NULL,
+	id SERIAL PRIMARY KEY
+);
+
 INSERT INTO customer(
 	firstname, lastname, email, company, street, city, postcode, phone, birthdate, sex)
 	VALUES (E'Aaliyah', 'Browne', 'AaliyahBrowne@jourrapide.com', 'Steve & Barry''s', 'Tonbridge Rd', 'London', 'BD23 4UH', '07948957011', '1954-04-23', 'F');
@@ -50,4 +81,4 @@ INSERT INTO customer(
 CREATE TYPE sex_type AS ENUM ('M','F');
 ALTER TABLE customer ALTER COLUMN sex TYPE sex_type USING sex::sex_type;
 
-26 mins
+32:03 mins
