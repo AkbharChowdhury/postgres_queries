@@ -1,4 +1,4 @@
-CREATE TABLE sales_person (
+CREATE TABLE customer (
 	firstname VARCHAR(50) NOT NULL,
 	lastname VARCHAR(50) NOT NULL,
 	email VARCHAR(100) NOT NULL UNIQUE,
@@ -10,7 +10,7 @@ CREATE TABLE sales_person (
 	birthdate DATE NULL,
 	sex sex_type NOT NULL,
 	date_entered TIMESTAMP NOT NULL DEFAULT current_timestamp,
-	sales_person_id SERIAL PRIMARY KEY 
+	id SERIAL PRIMARY KEY 
 );
 
 
@@ -26,7 +26,21 @@ CREATE TABLE sales_person (
 	birthdate DATE NULL,
 	sex sex_type NOT NULL,
 	date_hired TIMESTAMP NOT NULL DEFAULT current_timestamp,
-	sales_person_id SERIAL PRIMARY KEY 
+	id SERIAL PRIMARY KEY 
+);
+
+CREATE TABLE product_type(
+	product_name VARCHAR(30) NOT NULL,
+	id SERIAL PRIMARY KEY
+	
+);
+
+CREATE TABLE product(
+	type_id INTEGER REFERENCES product_type(id),
+	name VARCHAR(50) NOT NULL,
+	supplier VARCHAR(30) NOT NULL,
+	description text NOT NULL,
+	id SERIAL PRIMARY KEY
 );
 
 INSERT INTO customer(
@@ -36,4 +50,4 @@ INSERT INTO customer(
 CREATE TYPE sex_type AS ENUM ('M','F');
 ALTER TABLE customer ALTER COLUMN sex TYPE sex_type USING sex::sex_type;
 
-	18:03
+26 mins
