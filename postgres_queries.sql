@@ -83,3 +83,23 @@ ALTER TABLE customer ALTER COLUMN sex TYPE sex_type USING sex::sex_type;
 32:03 mins
 
 SET lc_monetary = 'en_GB';
+
+
+UNIQUE constraint
+
+CREATE EXTENSION IF NOT EXISTS citext;  
+ALTER TABLE genres ALTER COLUMN genre TYPE citext;  
+
+http://shuber.io/case-insensitive-unique-constraints-in-postgres/
+
+insert into genres(genre) values('Adventure'), ('Comedy'), ('Documentary'), ('Drama'), ('Action'), ('Horror'), ('Thriller'), ('Crime'), ('Western'), ('Romance'), ('Sci-Fi'), ('Children')
+CREATE TABLE movie_genres(
+    genre_id INTEGER REFERENCES genres(genre_id),
+    movie_id INTEGER REFERENCES movies(movie_id),
+    PRIMARY KEY(genre_id, movie_id)
+);
+
+select mg.*, m.title, g.genre
+from movie_genres mg 
+natural join genres g
+natural join movies m
